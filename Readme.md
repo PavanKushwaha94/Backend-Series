@@ -1,4 +1,4 @@
-# complete backend series with chai-aur-code
+# Complete backend series with Javascript
 
 This series is about to backend with javascript
 
