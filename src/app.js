@@ -3,7 +3,7 @@ import cookieParser from 'cookie-parser'
 import cors from 'cors'
 
 const app = express ()
-app/UserActivation(cors({
+app.use(cors({
     origin: process.env.CORS_ORIGIN,
     credentials: true
 }))
@@ -23,4 +23,4 @@ app.use ("/api/v1/users", userRouter)
 
 // http://localhost:4000/api/v1/users/register // ya kuch koi bhi route
 
-export { app }
+export default app
