@@ -1,7 +1,7 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
-import { ApiError } from "../utils/ApiError.js"
-import { uploadOnCloudinary } from "./utilscloudinary.js"
-import { ApiResponse } from "../utils/ApiResponse.js";}
+import { ApiError } from "../utils/ApiError.js";
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import { ApiResponse } from "../utils/ApiResponse.js";
 
 
 const registarUser = asyncHandler (async (req,res)=>{
@@ -53,15 +53,21 @@ return res.status(201).json(
     new ApiResponse(200, createdUser, "User registered Successfully")
 )
 
-  const existedUser =  user.findOne({
+  const existedUser = await User.findOne({
         $or: [{ username }, { email }]
     })
     if(existedUser){
         throw new ApiError(400, "User with this email or username already exists")
     }
 
+    console.log(res.files);
    const avatarLocalPath = req.files?.avatar[0]?.path;
-   const coverImageAvatar = req.files?.coverImage[0]?.path;
+   //const coverImageAvatar = req.files?.coverImage[0]?.path;
+
+   let coverImageLocalPath;
+   if(req.files && Array.isArray(req.files.coverImage)&& req.files.coverImage.length>0){
+    coverImageLocalPath = req.files.coverImage[0].path
+   }
 
    if(!avatarLocalPath) {
 throw new ApiError (400, "avatar file is required")
